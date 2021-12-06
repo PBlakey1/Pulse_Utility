@@ -28,7 +28,7 @@ class pulse_utility:
         max_index = np.argmax(a)
         idx = (np.abs(a - a[max_index]/2)).argmin()
         FWHM = x[max_index]-x[idx]
-        return 2*FWHM
+        return 2*np.abs(FWHM)
     def get_power_spectrum(self,t,a):
         power_spectrum = np.abs(self.fourier_transform(t,a)[1])**2
         return power_spectrum
