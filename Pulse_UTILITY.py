@@ -23,6 +23,12 @@ class pulse_utility:
         t = ifftshift(t)
         return t, a_t
 
+    def get_FWHM(self,x,a):
+        a = np.abs(a)**2
+        max_index = np.argmax(a)
+        idx = (np.abs(a - a[max_index]/2)).argmin()
+        FWHM = x[max_index]-x[idx]
+        return 2*FWHM
     def get_power_spectrum(self,t,a):
         power_spectrum = np.abs(self.fourier_transform(t,a)[1])**2
         return power_spectrum
@@ -31,6 +37,7 @@ class pulse_utility:
         freq , a_f = self.fourier_transform(t,a)
         power_spect = self.get_power_spectrum(t,a)
         tau, autocorrelation = self.inverse_fourier_transform(freq,power_spect)
+        #autocorrelation = np.convolve(a,np.conj(a),'same')
         return tau, autocorrelation
 
     def get_intensity_autocorrelation(self,t,a):
