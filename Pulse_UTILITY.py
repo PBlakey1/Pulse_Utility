@@ -9,15 +9,15 @@ class pulse_utility:
 
     def fourier_transform(self,t,a):
         N = np.size(t)
-        T = max(t)/N
-        f_domain = fftshift(fft(a))
-        freq = fftfreq(N,T)
+        d = np.mean(np.diff(t))
+        f_domain = fftshift(fft(a))/np.sqrt(N)
+        freq = fftfreq(N,d)
         freq = fftshift(freq)
         return freq, f_domain
 
     def inverse_fourier_transform(self,freq, a_f):
         N = np.size(freq)
-        F_samp = max(freq) / N
+        F_samp = np.mean(np.diff(freq))
         a_t = ifftshift(ifft(a_f))
         t = fftfreq(N, F_samp)
         t = ifftshift(t)
