@@ -18,7 +18,7 @@ class pulse_utility:
     def inverse_fourier_transform(self,freq, a_f):
         N = np.size(freq)
         F_samp = np.mean(np.diff(freq))
-        a_t = ifftshift(ifft(a_f))
+        a_t = (ifft(a_f))
         t = fftfreq(N, F_samp)
         t = ifftshift(t)
         return t, a_t
@@ -35,10 +35,10 @@ class pulse_utility:
 
     def get_amplitude_autocorrelation(self,t,a):
         freq , a_f = self.fourier_transform(t,a)
-        power_spect = self.get_power_spectrum(t,a)
-        tau, autocorrelation = self.inverse_fourier_transform(freq,power_spect)
-        #autocorrelation = np.convolve(a,np.conj(a),'same')
-        return tau, autocorrelation
+        #power_spect = self.get_power_spectrum(t,a)
+        #tau, autocorrelation = self.inverse_fourier_transform(freq,power_spect)
+        autocorrelation = np.convolve(a,np.conj(np.flip(a)),'same')
+        return t, autocorrelation
 
     def get_intensity_autocorrelation(self,t,a):
         dt = np.mean(np.diff(t))
